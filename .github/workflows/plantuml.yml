@@ -23,7 +23,14 @@ jobs:
           distribution: 'temurin'  # Added required distribution input
 
       - name: Install PlantUML
-        run: sudo apt-get install -y plantuml
+        run: |
+          sudo apt-get install -y graphviz
+          wget https://sourceforge.net/projects/plantuml/files/plantuml.jar
+          echo '#!/bin/bash' > plantuml
+          echo 'java -jar plantuml.jar "$@"' >> plantuml
+          chmod +x plantuml
+          sudo mv plantuml /usr/local/bin/
+          sudo mv plantuml.jar /usr/local/bin/
 
       - name: Generate Diagrams
         run: |
